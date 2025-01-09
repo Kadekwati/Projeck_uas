@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permainan Tebak Gambar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        img {
+            max-width: 300px;
+            margin: 20px 0;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin: 20px;
+            font-size: 20px;
+            color: green;
+        }
+        .score {
+            margin: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Permainan Tebak Gambar</h1>
+
+    <p>Skor: <span id="score">0</span></p>
+    <p>Tebak nama gambar di bawah ini:</p>
+
+    <!-- Gambar untuk ditebak -->
+    <img id="randomImage" src="images/bunglon.jpg" alt="Gambar untuk ditebak">
+
+    <!-- Input tebakan pemain -->
+    <form id="gameForm">
+        <input type="text" id="guess" placeholder="Masukkan nama gambar">
+        <button type="submit">Tebak</button>
+    </form>
+
+    <!-- Hasil tebakan -->
+    <div class="result" id="result"></div>
+
+    <script>
+        const images = ["bunglon.jpg", "kelinci.jpg", "kuda.jpg", "serigala.jpg"];
+        let currentImage = "bunglon.jpg";
+        let score = 0;
+
+        // Fungsi untuk memilih gambar secara acak
+        function randomizeImage() {
+            const randomIndex = Math.floor(Math.random() * images.length);
+            currentImage = images[randomIndex];
+            document.getElementById('randomImage').src = `images/${currentImage}`;
+        }
+
+        document.getElementById('gameForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const userGuess = document.getElementById('guess').value.trim().toLowerCase();
+            const correctAnswer = currentImage.split('.')[0].toLowerCase();
+
+            if (userGuess === correctAnswer) {
+                document.getElementById('result').textContent = "Jawaban Anda benar!";
+                score++;
+                document.getElementById('score').textContent = score;
+                randomizeImage(); // Ganti gambar setelah jawaban benar
+            } else {
+                document.getElementById('result').textContent = "Jawaban Anda salah. Coba lagi!";
+            }
+
+            document.getElementById('guess').value = ""; // Kosongkan input tebakan
+        });
+
+        // Randomize the first image on load
+        randomizeImage();
+    </script>
+
+</body>
+</html>
